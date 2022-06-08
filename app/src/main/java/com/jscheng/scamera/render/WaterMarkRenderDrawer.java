@@ -6,13 +6,12 @@ import android.graphics.BitmapFactory;
 import android.opengl.GLES30;
 
 import com.jscheng.scamera.R;
-import com.jscheng.scamera.render.BaseRenderDrawer;
 import com.jscheng.scamera.util.GlesUtil;
 
 /**
  * Created By Chengjunsen on 2018/8/29
  */
-public class WaterMarkRenderDrawer extends BaseRenderDrawer{
+public class WaterMarkRenderDrawer extends BaseRenderDrawer {
     private int mMarkTextureId;
     private int mInputTextureId;
     private Bitmap mBitmap;
@@ -23,6 +22,7 @@ public class WaterMarkRenderDrawer extends BaseRenderDrawer{
     public WaterMarkRenderDrawer(Context context) {
         mBitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.watermark);
     }
+
     @Override
     public void setInputTextureId(int textureId) {
         this.mInputTextureId = textureId;

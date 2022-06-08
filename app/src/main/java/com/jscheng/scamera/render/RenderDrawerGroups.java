@@ -1,13 +1,12 @@
 package com.jscheng.scamera.render;
 
+import static com.jscheng.scamera.util.LogUtil.TAG;
+
 import android.content.Context;
-import android.opengl.EGLContext;
 import android.opengl.GLES30;
 import android.util.Log;
 
 import com.jscheng.scamera.util.GlesUtil;
-
-import static com.jscheng.scamera.util.LogUtil.TAG;
 
 /**
  * Created By Chengjunsen on 2018/8/31
@@ -87,7 +86,7 @@ public class RenderDrawerGroups {
         drawRender(mOriginalDrawer, true, timestamp, transformMatrix);
         // 绘制顺序会控制着 水印绘制哪一层
         //drawRender(mWaterMarkDrawer, true, timestamp, transformMatrix);
-        drawRender(mDisplayDrawer, false,  timestamp, transformMatrix);
+        drawRender(mDisplayDrawer, false, timestamp, transformMatrix);
         drawRender(mWaterMarkDrawer, true, timestamp, transformMatrix);
         drawRender(mRecordDrawer, false, timestamp, transformMatrix);
     }

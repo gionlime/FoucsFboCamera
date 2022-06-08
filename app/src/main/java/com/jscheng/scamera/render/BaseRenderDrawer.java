@@ -12,37 +12,25 @@ import java.nio.FloatBuffer;
  * Created By Chengjunsen on 2018/8/27
  */
 public abstract class BaseRenderDrawer {
+    protected final int CoordsPerVertexCount = 2;
+    protected final int VertexStride = CoordsPerVertexCount * 4;
+    protected final int CoordsPerTextureCount = 2;
+    protected final int TextureStride = CoordsPerTextureCount * 4;
     protected int width;
-
     protected int height;
-
     protected int mProgram;
-
-    //顶点坐标 Buffer
-    private FloatBuffer mVertexBuffer;
     protected int mVertexBufferId;
-
-    //纹理坐标 Buffer
-    private FloatBuffer mFrontTextureBuffer;
     protected int mFrontTextureBufferId;
-
-    //纹理坐标 Buffer
-    private FloatBuffer mBackTextureBuffer;
     protected int mBackTextureBufferId;
-
-    private FloatBuffer mDisplayTextureBuffer;
     protected int mDisplayTextureBufferId;
-
-    private FloatBuffer mFrameTextureBuffer;
     protected int mFrameTextureBufferId;
-
     protected float vertexData[] = {
             -1f, -1f,// 左下角
             1f, -1f, // 右下角
             -1f, 1f, // 左上角
             1f, 1f,  // 右上角
     };
-
+    protected final int VertexCount = vertexData.length / CoordsPerVertexCount;
     protected float frontTextureData[] = {
             1f, 1f, // 右上角
             1f, 0f, // 右下角
@@ -70,16 +58,14 @@ public abstract class BaseRenderDrawer {
             0f, 1f,
             1f, 1f
     };
-
-    protected final int CoordsPerVertexCount = 2;
-
-    protected final int VertexCount = vertexData.length / CoordsPerVertexCount;
-
-    protected final int VertexStride = CoordsPerVertexCount * 4;
-
-    protected final int CoordsPerTextureCount = 2;
-
-    protected final int TextureStride = CoordsPerTextureCount * 4;
+    //顶点坐标 Buffer
+    private FloatBuffer mVertexBuffer;
+    //纹理坐标 Buffer
+    private FloatBuffer mFrontTextureBuffer;
+    //纹理坐标 Buffer
+    private FloatBuffer mBackTextureBuffer;
+    private FloatBuffer mDisplayTextureBuffer;
+    private FloatBuffer mFrameTextureBuffer;
 
     public BaseRenderDrawer() {
 
@@ -97,14 +83,14 @@ public abstract class BaseRenderDrawer {
         onChanged(width, height);
     }
 
-    public void draw(long timestamp, float[] transformMatrix){
+    public void draw(long timestamp, float[] transformMatrix) {
         clear();
         useProgram();
         viewPort(0, 0, width, height);
         onDraw();
     }
 
-    protected void clear(){
+    protected void clear() {
         GLES30.glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT | GLES30.GL_DEPTH_BUFFER_BIT);
     }
@@ -160,15 +146,15 @@ public abstract class BaseRenderDrawer {
         GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, mFrameTextureBufferId);
         GLES30.glBufferData(GLES30.GL_ARRAY_BUFFER, frameBufferData.length * 4, mFrameTextureBuffer, GLES30.GL_STATIC_DRAW);
 
-        GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER,0);
+        GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, 0);
     }
 
-    protected void useProgram(){
+    protected void useProgram() {
         GLES30.glUseProgram(mProgram);
     }
 
     protected void viewPort(int x, int y, int width, int height) {
-        GLES30.glViewport(x, y, width,  height);
+        GLES30.glViewport(x, y, width, height);
     }
 
     public abstract void setInputTextureId(int textureId);

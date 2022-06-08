@@ -2,8 +2,6 @@ package com.jscheng.scamera.render;
 
 import android.opengl.GLES30;
 
-import com.jscheng.scamera.render.BaseRenderDrawer;
-
 /**
  * Created By Chengjunsen on 2018/8/27
  */

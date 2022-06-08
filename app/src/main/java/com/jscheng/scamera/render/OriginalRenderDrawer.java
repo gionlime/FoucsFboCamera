@@ -1,10 +1,8 @@
 package com.jscheng.scamera.render;
 
-import android.graphics.SurfaceTexture;
 import android.opengl.GLES11Ext;
 import android.opengl.GLES30;
 
-import com.jscheng.scamera.render.BaseRenderDrawer;
 import com.jscheng.scamera.util.CameraUtil;
 import com.jscheng.scamera.util.GlesUtil;
 

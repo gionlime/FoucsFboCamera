@@ -2,16 +2,15 @@ package com.jscheng.scamera.widget;
 
 import android.content.Context;
 import android.graphics.SurfaceTexture;
-import android.opengl.EGL14;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
+
 import com.jscheng.scamera.render.CameraSurfaceRender;
-import java.nio.ByteBuffer;
 
 /**
  * Created By Chengjunsen on 2018/8/25
  */
-public class CameraGLSurfaceView extends GLSurfaceView implements CameraSurfaceRender.CameraSufaceRenderCallback{
+public class CameraGLSurfaceView extends GLSurfaceView implements CameraSurfaceRender.CameraSufaceRenderCallback {
     private CameraSurfaceRender mRender;
     private CameraGLSurfaceViewCallback mCallback;
 
@@ -83,6 +82,7 @@ public class CameraGLSurfaceView extends GLSurfaceView implements CameraSurfaceR
 
     public interface CameraGLSurfaceViewCallback {
         void onSurfaceViewCreate(SurfaceTexture texture);
+
         void onSurfaceViewChange(int width, int height);
     }
 }

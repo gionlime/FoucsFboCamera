@@ -1,5 +1,7 @@
 package com.jscheng.scamera.view;
 
+import static com.jscheng.scamera.util.LogUtil.TAG;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Point;
@@ -9,15 +11,16 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.util.Size;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.jscheng.scamera.R;
 import com.jscheng.scamera.util.CameraUtil;
@@ -27,12 +30,10 @@ import com.jscheng.scamera.widget.CameraGLSurfaceView;
 import com.jscheng.scamera.widget.CameraProgressButton;
 import com.jscheng.scamera.widget.CameraSwitchView;
 
-import static com.jscheng.scamera.util.LogUtil.TAG;
-
 /**
  * Created By Chengjunsen on 2018/8/22
  */
-public class CameraFragment extends Fragment implements CameraProgressButton.Listener, CameraGLSurfaceView.CameraGLSurfaceViewCallback, CameraSensor.CameraSensorListener{
+public class CameraFragment extends Fragment implements CameraProgressButton.Listener, CameraGLSurfaceView.CameraGLSurfaceViewCallback, CameraSensor.CameraSensorListener {
     private final static int REQUEST_CODE = 1;
     private final static int MSG_START_PREVIEW = 1;
     private final static int MSG_SWITCH_CAMERA = 2;
@@ -74,13 +75,13 @@ public class CameraFragment extends Fragment implements CameraProgressButton.Lis
             @Override
             public boolean onTouch(View view, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    focus((int)event.getX(), (int)event.getY(), false);
+                    focus((int) event.getX(), (int) event.getY(), false);
                     return true;
                 }
                 return false;
             }
         });
-        mSwitchView.setOnClickListener(new View.OnClickListener(){
+        mSwitchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mCameraHanlder.sendEmptyMessage(MSG_SWITCH_CAMERA);
@@ -133,16 +134,16 @@ public class CameraFragment extends Fragment implements CameraProgressButton.Lis
 
     @Override
     public void onSurfaceViewChange(int width, int height) {
-        Log.e(TAG, "surfaceChanged: ( " + width +" x " + height +" )");
+        Log.e(TAG, "surfaceChanged: ( " + width + " x " + height + " )");
         mPreviewSize = new Size(width, height);
         mCameraHanlder.sendEmptyMessage(MSG_START_PREVIEW);
     }
 
     public void startPreview() {
-        if (mPreviewSize != null && requestPermission() ) {
+        if (mPreviewSize != null && requestPermission()) {
             if (CameraUtil.getCamera() == null) {
                 CameraUtil.openCamera();
-                Log.e(TAG, "openCamera" );
+                Log.e(TAG, "openCamera");
                 CameraUtil.setDisplay(mCameraView.getSurfaceTexture());
             }
             CameraUtil.startPreview(getActivity(), mPreviewSize.getWidth(), mPreviewSize.getHeight());
@@ -155,7 +156,7 @@ public class CameraFragment extends Fragment implements CameraProgressButton.Lis
         CameraUtil.releaseCamera();
         mCameraSensor.stop();
         mFocusView.cancelFocus();
-        Log.e(TAG, "releasePreview releaseCamera" );
+        Log.e(TAG, "releasePreview releaseCamera");
     }
 
     public void switchCamera() {
@@ -259,7 +260,7 @@ public class CameraFragment extends Fragment implements CameraProgressButton.Lis
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == requestCode ) {
+        if (requestCode == requestCode) {
             mCameraHanlder.sendEmptyMessage(MSG_START_PREVIEW);
         }
     }

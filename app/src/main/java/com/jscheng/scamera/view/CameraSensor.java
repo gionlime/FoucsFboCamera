@@ -9,7 +9,7 @@ import android.hardware.SensorManager;
 /**
  * Created By Chengjunsen on 2018/8/24
  */
-public class CameraSensor implements SensorEventListener{
+public class CameraSensor implements SensorEventListener {
     private SensorManager mSensorManager;
     private Sensor mSensor;
     private int lastX, lastY, lastZ;
@@ -21,6 +21,7 @@ public class CameraSensor implements SensorEventListener{
         mCameraSensorListener = null;
         reset();
     }
+
     /**
      * 方向改变时会调用
      */

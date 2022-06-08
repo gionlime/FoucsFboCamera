@@ -5,7 +5,6 @@ import android.opengl.GLES30;
 
 import com.jscheng.scamera.R;
 import com.jscheng.scamera.util.GlesUtil;
-import com.jscheng.scamera.render.BaseRenderDrawer;
 
 public class OriginalImageRenderDrawer extends BaseRenderDrawer {
     private int mInputTextureId;

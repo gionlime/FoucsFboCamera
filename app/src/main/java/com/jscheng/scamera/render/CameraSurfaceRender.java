@@ -1,5 +1,7 @@
 package com.jscheng.scamera.render;
 
+import static com.jscheng.scamera.util.LogUtil.TAG;
+
 import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.opengl.EGL14;
@@ -10,8 +12,6 @@ import com.jscheng.scamera.util.GlesUtil;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
-
-import static com.jscheng.scamera.util.LogUtil.TAG;
 
 /**
  * Created By Chengjunsen on 2018/8/27
@@ -45,13 +45,13 @@ public class CameraSurfaceRender implements GLSurfaceView.Renderer {
     public void initCameraTexture() {
         mCameraTexture = new SurfaceTexture(mCameraTextureId);
         mCameraTexture.setOnFrameAvailableListener(new SurfaceTexture.OnFrameAvailableListener() {
-                @Override
-                public void onFrameAvailable(SurfaceTexture surfaceTexture) {
-                    if (mCallback != null) {
-                        mCallback.onRequestRender();
-                    }
+            @Override
+            public void onFrameAvailable(SurfaceTexture surfaceTexture) {
+                if (mCallback != null) {
+                    mCallback.onRequestRender();
                 }
-            });
+            }
+        });
     }
 
     @Override
@@ -107,8 +107,11 @@ public class CameraSurfaceRender implements GLSurfaceView.Renderer {
 
     public interface CameraSufaceRenderCallback {
         void onRequestRender();
+
         void onCreate();
+
         void onChanged(int width, int height);
+
         void onDraw();
     }
 }

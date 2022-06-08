@@ -1,6 +1,7 @@
 package com.jscheng.scamera.util;
 
-import android.content.Context;
+import static com.jscheng.scamera.util.LogUtil.TAG;
+
 import android.opengl.EGL14;
 import android.opengl.EGLConfig;
 import android.opengl.EGLContext;
@@ -10,8 +11,6 @@ import android.opengl.EGLSurface;
 import android.util.Log;
 
 import javax.microedition.khronos.egl.EGL10;
-
-import static com.jscheng.scamera.util.LogUtil.TAG;
 
 /**
  * Created By Chengjunsen on 2018/9/20
@@ -104,7 +103,7 @@ public class EGLHelper {
     }
 
     public EGLSurface createWindowSurface(Object surface) {
-       return createWindowSurface(mEglConfig, surface);
+        return createWindowSurface(mEglConfig, surface);
     }
 
     public EGLSurface createPbufferSurface(EGLConfig config, int width, int height) {

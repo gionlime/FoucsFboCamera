@@ -1,19 +1,16 @@
 package com.jscheng.scamera.util;
 
+import static com.jscheng.scamera.util.LogUtil.TAG;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.opengl.GLES11Ext;
 import android.opengl.GLES30;
-import android.opengl.GLES30;
 import android.opengl.GLUtils;
 import android.util.Log;
 
-import java.nio.IntBuffer;
-
 import javax.microedition.khronos.opengles.GL10;
-
-import static com.jscheng.scamera.util.LogUtil.TAG;
 
 /**
  * Created By Chengjunsen on 2018/8/29
@@ -27,7 +24,7 @@ public class GlesUtil {
         GLES30.glAttachShader(program, mVertexShader);
         GLES30.glAttachShader(program, mFragmentShader);
         GLES30.glLinkProgram(program);
-        int [] status = new int[1];
+        int[] status = new int[1];
         GLES30.glGetProgramiv(program, GLES30.GL_LINK_STATUS, status, 0);
         if (status[0] != GLES30.GL_TRUE) {
             Log.e(TAG, "createProgam: link error");
@@ -48,7 +45,7 @@ public class GlesUtil {
         GLES30.glGetShaderiv(shader, GLES30.GL_COMPILE_STATUS, status, 0);
         if (status[0] == 0) {
             Log.e(TAG, "loadShader: compiler error");
-            Log.e(TAG, "loadShader: " + GLES30.glGetShaderInfoLog(shader) );
+            Log.e(TAG, "loadShader: " + GLES30.glGetShaderInfoLog(shader));
             GLES30.glDeleteShader(shader);
             return 0;
         }
@@ -56,8 +53,8 @@ public class GlesUtil {
     }
 
     public static void checkFrameBufferError() {
-        int status= GLES30.glCheckFramebufferStatus(GLES30.GL_FRAMEBUFFER);
-        if(status !=GLES30.GL_FRAMEBUFFER_COMPLETE) {
+        int status = GLES30.glCheckFramebufferStatus(GLES30.GL_FRAMEBUFFER);
+        if (status != GLES30.GL_FRAMEBUFFER_COMPLETE) {
             Log.e(TAG, "checkFrameBuffer error: " + status);
             throw new RuntimeException("status:" + status + ", hex:" + Integer.toHexString(status));
         }
@@ -65,7 +62,7 @@ public class GlesUtil {
 
     public static void checkError() {
         if (GLES30.glGetError() != GLES30.GL_NO_ERROR) {
-            Log.e(TAG, "createOutputTexture: " + GLES30.glGetError() );
+            Log.e(TAG, "createOutputTexture: " + GLES30.glGetError());
         }
     }
 
@@ -146,13 +143,13 @@ public class GlesUtil {
         //绑定纹理
         GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, textureIds[0]);
         //设置缩小过滤为使用纹理中坐标最接近的一个像素的颜色作为需要绘制的像素颜色
-        GLES30.glTexParameterf(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_MIN_FILTER,GLES30.GL_NEAREST);
+        GLES30.glTexParameterf(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_MIN_FILTER, GLES30.GL_NEAREST);
         //设置放大过滤为使用纹理中坐标最接近的若干个颜色，通过加权平均算法得到需要绘制的像素颜色
-        GLES30.glTexParameterf(GLES30.GL_TEXTURE_2D,GLES30.GL_TEXTURE_MAG_FILTER,GLES30.GL_LINEAR);
+        GLES30.glTexParameterf(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_MAG_FILTER, GLES30.GL_LINEAR);
         //设置环绕方向S，截取纹理坐标到[1/2n,1-1/2n]。将导致永远不会与border融合
-        GLES30.glTexParameterf(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_WRAP_S,GLES30.GL_CLAMP_TO_EDGE);
+        GLES30.glTexParameterf(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_WRAP_S, GLES30.GL_CLAMP_TO_EDGE);
         //设置环绕方向T，截取纹理坐标到[1/2n,1-1/2n]。将导致永远不会与border融合
-        GLES30.glTexParameterf(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_WRAP_T,GLES30.GL_CLAMP_TO_EDGE);
+        GLES30.glTexParameterf(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_WRAP_T, GLES30.GL_CLAMP_TO_EDGE);
         //根据以上指定的参数，生成一个2D纹理
         GLUtils.texImage2D(GLES30.GL_TEXTURE_2D, 0, bitmap, 0);
         GLES30.glGenerateMipmap(GLES30.GL_TEXTURE_2D);
@@ -171,7 +168,7 @@ public class GlesUtil {
         return textureId;
     }
 
-    public static void bindFrameTexture(int frameBufferId, int textureId){
+    public static void bindFrameTexture(int frameBufferId, int textureId) {
         GLES30.glBindFramebuffer(GLES30.GL_FRAMEBUFFER, frameBufferId);
         GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, textureId);
         GLES30.glFramebufferTexture2D(GLES30.GL_FRAMEBUFFER, GLES30.GL_COLOR_ATTACHMENT0, GLES30.GL_TEXTURE_2D, textureId, 0);

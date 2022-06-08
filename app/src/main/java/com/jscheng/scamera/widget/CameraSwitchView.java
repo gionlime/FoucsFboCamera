@@ -1,8 +1,9 @@
 package com.jscheng.scamera.widget;
 
 import android.content.Context;
-import androidx.annotation.Nullable;
 import android.util.AttributeSet;
+
+import androidx.annotation.Nullable;
 
 /**
  * Created By Chengjunsen on 2018/8/24
@@ -13,6 +14,7 @@ public class CameraSwitchView extends androidx.appcompat.widget.AppCompatImageVi
     private static final int ORIENTATION_LEFT = 90;
     private static final int ORIENTATION_RIGHT = 270;
     private Context mContext;
+
     public CameraSwitchView(Context context) {
         super(context);
         init(context);

@@ -1,5 +1,7 @@
 package com.jscheng.scamera.record;
 
+import static com.jscheng.scamera.util.LogUtil.TAG;
+
 import android.media.MediaCodec;
 import android.media.MediaCodecInfo;
 import android.media.MediaFormat;
@@ -10,8 +12,6 @@ import android.view.Surface;
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-
-import static com.jscheng.scamera.util.LogUtil.TAG;
 
 /**
  * Created By Chengjunsen on 2018/9/20

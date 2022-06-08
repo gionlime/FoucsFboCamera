@@ -9,17 +9,18 @@ import android.graphics.RectF;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+
+import androidx.annotation.Nullable;
 
 import com.jscheng.scamera.R;
 
 /**
  * Created By Chengjunsen on 2018/8/22
  */
-public class CameraProgressButton extends View{
+public class CameraProgressButton extends View {
     private int mMaxProgress = 10000; // 默认10s
     private Paint mBgPaint;
     private Paint mStrokePaint;
@@ -40,7 +41,7 @@ public class CameraProgressButton extends View{
         init(context, attrs);
     }
 
-    private void init(Context context,@Nullable AttributeSet attrs) {
+    private void init(Context context, @Nullable AttributeSet attrs) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.camera_progress_button);
         mCircleColor = typedArray.getColor(R.styleable.camera_progress_button_circle, Color.RED);
         mCircleLineColor = typedArray.getColor(R.styleable.camera_progress_button_circle_line, Color.BLACK);
@@ -66,11 +67,11 @@ public class CameraProgressButton extends View{
     @Override
     protected void onDraw(Canvas canvas) {
         int width = Math.min(getWidth(), getHeight());
-        int radius = progress == 0 ? width/3 : width/2;
+        int radius = progress == 0 ? width / 3 : width / 2;
         int mStrokeWidth = width / 10;
 
-        int centerX = width/2;
-        int centerY = width/2;
+        int centerX = width / 2;
+        int centerY = width / 2;
 
         float progressSweepAngle = 0;
         if (progress > 0 && progress < mMaxProgress) {
@@ -86,10 +87,10 @@ public class CameraProgressButton extends View{
         mStrokePaint.setColor(mCircleLineColor);
 
         // 位置
-        mRectF.left = centerX - radius + mStrokeWidth/2;
-        mRectF.top = centerY - radius + mStrokeWidth/2;
-        mRectF.right = centerX + radius - mStrokeWidth/2;
-        mRectF.bottom = centerY + radius - mStrokeWidth/2;
+        mRectF.left = centerX - radius + mStrokeWidth / 2;
+        mRectF.top = centerY - radius + mStrokeWidth / 2;
+        mRectF.right = centerX + radius - mStrokeWidth / 2;
+        mRectF.bottom = centerY + radius - mStrokeWidth / 2;
 
         // 实心圆
         mBgPaint.setAntiAlias(true);
@@ -105,13 +106,13 @@ public class CameraProgressButton extends View{
         this.mMaxProgress = maxProgress;
     }
 
+    public int getProgress() {
+        return progress;
+    }
+
     public void setProgress(int progress) {
         this.progress = progress > mMaxProgress ? mMaxProgress : progress;
         invalidate();
-    }
-
-    public int getProgress() {
-        return progress;
     }
 
     @Override
@@ -128,15 +129,18 @@ public class CameraProgressButton extends View{
         }
     }
 
-    public interface Listener {
-        void onShortPress();
-        void onStartLongPress();
-        void onEndLongPress();
-        void onEndMaxProgress();
-    }
-
     public void setProgressListener(Listener mListener) {
         this.mListener = mListener;
+    }
+
+    public interface Listener {
+        void onShortPress();
+
+        void onStartLongPress();
+
+        void onEndLongPress();
+
+        void onEndMaxProgress();
     }
 
     private class InnerTouchHandler extends Handler {
@@ -147,6 +151,7 @@ public class CameraProgressButton extends View{
         public int EACH_DURATION = 100;
 
         private boolean isPress = false;
+
         public InnerTouchHandler() {
             super(Looper.getMainLooper());
         }
@@ -179,7 +184,7 @@ public class CameraProgressButton extends View{
                         if (mListener != null) {
                             if (getProgress() == 0) {
                                 mListener.onStartLongPress();
-                            } else if (endProgress >= mMaxProgress){
+                            } else if (endProgress >= mMaxProgress) {
                                 mListener.onEndMaxProgress();
                             }
                         }

@@ -1,10 +1,11 @@
 package com.jscheng.scamera.util;
 
 
+import static com.jscheng.scamera.util.LogUtil.TAG;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.ImageFormat;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
@@ -13,16 +14,12 @@ import android.os.Build;
 import android.util.Log;
 import android.util.Size;
 import android.view.Surface;
-import android.view.SurfaceHolder;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
-
-import static com.jscheng.scamera.util.LogUtil.TAG;
 
 /**
  * Created By Chengjunsen on 2018/8/23
@@ -30,19 +27,6 @@ import static com.jscheng.scamera.util.LogUtil.TAG;
 public class CameraUtil {
     private static Camera mCamera = null;
     private static int mCameraID = Camera.CameraInfo.CAMERA_FACING_BACK;
-
-    /**
-     * 检查camera硬件
-     * @param context
-     * @return
-     */
-    private boolean checkCameraHardware(Context context) {
-        if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     public static void openCamera() {
         mCamera = Camera.open(mCameraID);
@@ -94,12 +78,13 @@ public class CameraUtil {
             parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
             mCamera.setParameters(parameters);
             mCamera.startPreview();
-            Log.e(TAG, "camera startPreview: (" + width + " x " + height +")");
+            Log.e(TAG, "camera startPreview: (" + width + " x " + height + ")");
         }
     }
 
     /**
      * 获取最合适的尺寸
+     *
      * @param supportList
      * @param width
      * @param height
@@ -125,7 +110,7 @@ public class CameraUtil {
         Camera.Size result = supportList.get(0);
         boolean widthOrHeight = false; // 判断存在宽或高相等的Size
         // 辗转计算宽高最接近的值
-        for (Camera.Size size: supportList) {
+        for (Camera.Size size : supportList) {
             // 如果宽高相等，则直接返回
             if (size.width == expectWidth && size.height == expectHeight) {
                 result = size;
@@ -182,9 +167,10 @@ public class CameraUtil {
 
     /**
      * 对焦
+     *
      * @param focusPoint 焦点位置
      * @param screenSize 屏幕尺寸
-     * @param callback 对焦成功或失败的callback
+     * @param callback   对焦成功或失败的callback
      * @return
      */
     public static boolean newCameraFocus(Point focusPoint, Size screenSize, Camera.AutoFocusCallback callback) {
@@ -210,7 +196,7 @@ public class CameraUtil {
             } catch (Exception e) {
                 e.printStackTrace();
                 return false;
-            } 
+            }
         }
         return focus(callback);
     }
@@ -244,13 +230,14 @@ public class CameraUtil {
 
     /**
      * 将屏幕坐标转换成camera坐标
+     *
      * @param screenSize
      * @param focusPoint
      * @return cameraPoint
      */
-    private static Point convertToCameraPoint(Size screenSize, Point focusPoint){
-        int newX = focusPoint.y * 2000/screenSize.getHeight() - 1000;
-        int newY = -focusPoint.x * 2000/screenSize.getWidth() + 1000;
+    private static Point convertToCameraPoint(Size screenSize, Point focusPoint) {
+        int newX = focusPoint.y * 2000 / screenSize.getHeight() - 1000;
+        int newY = -focusPoint.x * 2000 / screenSize.getWidth() + 1000;
         return new Point(newX, newY);
     }
 
@@ -263,8 +250,12 @@ public class CameraUtil {
     }
 
     private static int limit(int s, int max, int min) {
-        if (s > max) { return max; }
-        if (s < min) { return min; }
+        if (s > max) {
+            return max;
+        }
+        if (s < min) {
+            return min;
+        }
         return s;
     }
 
@@ -286,5 +277,19 @@ public class CameraUtil {
                 break;
         }
         return degrees;
+    }
+
+    /**
+     * 检查camera硬件
+     *
+     * @param context
+     * @return
+     */
+    private boolean checkCameraHardware(Context context) {
+        if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

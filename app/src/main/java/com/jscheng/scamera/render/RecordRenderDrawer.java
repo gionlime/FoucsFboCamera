@@ -1,8 +1,8 @@
 package com.jscheng.scamera.render;
 
+import static com.jscheng.scamera.util.LogUtil.TAG;
+
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.opengl.EGL14;
 import android.opengl.EGLContext;
 import android.opengl.EGLSurface;
@@ -12,20 +12,18 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
-import com.jscheng.scamera.R;
 import com.jscheng.scamera.record.VideoEncoder;
 import com.jscheng.scamera.util.EGLHelper;
 import com.jscheng.scamera.util.GlesUtil;
 import com.jscheng.scamera.util.StorageUtil;
+
 import java.io.File;
 import java.io.IOException;
-
-import static com.jscheng.scamera.util.LogUtil.TAG;
 
 /**
  * Created By Chengjunsen on 2018/9/21
  */
-public class RecordRenderDrawer extends BaseRenderDrawer implements Runnable{
+public class RecordRenderDrawer extends BaseRenderDrawer implements Runnable {
     // 绘制的纹理 ID
     private int mTextureId;
     private VideoEncoder mVideoEncoder;
@@ -104,45 +102,6 @@ public class RecordRenderDrawer extends BaseRenderDrawer implements Runnable{
         Looper.loop();
     }
 
-    private class MsgHandler extends Handler {
-        public static final int MSG_START_RECORD = 1;
-        public static final int MSG_STOP_RECORD = 2;
-        public static final int MSG_UPDATE_CONTEXT = 3;
-        public static final int MSG_UPDATE_SIZE = 4;
-        public static final int MSG_FRAME = 5;
-        public static final int MSG_QUIT = 6;
-
-        public MsgHandler() {
-
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MSG_START_RECORD:
-                    prepareVideoEncoder((EGLContext) msg.obj, msg.arg1, msg.arg2);
-                    break;
-                case MSG_STOP_RECORD:
-                    stopVideoEncoder();
-                    break;
-                case MSG_UPDATE_CONTEXT:
-                    updateEglContext((EGLContext) msg.obj);
-                    break;
-                case MSG_UPDATE_SIZE:
-                    updateChangedSize(msg.arg1, msg.arg2);
-                    break;
-                case MSG_FRAME:
-                    drawFrame((long)msg.obj);
-                    break;
-                case MSG_QUIT:
-                    quitLooper();
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
     private void prepareVideoEncoder(EGLContext context, int width, int height) {
         try {
             mEglHelper = new EGLHelper();
@@ -184,7 +143,7 @@ public class RecordRenderDrawer extends BaseRenderDrawer implements Runnable{
     }
 
     private void drawFrame(long timeStamp) {
-        Log.d(TAG, "drawFrame: " + timeStamp );
+        Log.d(TAG, "drawFrame: " + timeStamp);
         mEglHelper.makeCurrent(mEglSurface);
         mVideoEncoder.drainEncoder(false);
         onDraw();
@@ -265,5 +224,44 @@ public class RecordRenderDrawer extends BaseRenderDrawer implements Runnable{
                 "   gl_FragColor = texture2D(s_Texture, v_texPo);\n" +
                 "}";
         return source;
+    }
+
+    private class MsgHandler extends Handler {
+        public static final int MSG_START_RECORD = 1;
+        public static final int MSG_STOP_RECORD = 2;
+        public static final int MSG_UPDATE_CONTEXT = 3;
+        public static final int MSG_UPDATE_SIZE = 4;
+        public static final int MSG_FRAME = 5;
+        public static final int MSG_QUIT = 6;
+
+        public MsgHandler() {
+
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MSG_START_RECORD:
+                    prepareVideoEncoder((EGLContext) msg.obj, msg.arg1, msg.arg2);
+                    break;
+                case MSG_STOP_RECORD:
+                    stopVideoEncoder();
+                    break;
+                case MSG_UPDATE_CONTEXT:
+                    updateEglContext((EGLContext) msg.obj);
+                    break;
+                case MSG_UPDATE_SIZE:
+                    updateChangedSize(msg.arg1, msg.arg2);
+                    break;
+                case MSG_FRAME:
+                    drawFrame((long) msg.obj);
+                    break;
+                case MSG_QUIT:
+                    quitLooper();
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }
